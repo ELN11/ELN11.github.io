@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>ELN11 – Electronic Lab Journal</title>
+
   <style>
     body {
       font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -13,20 +15,40 @@
       padding: 0;
       line-height: 1.6;
     }
-    header, section {
+
+    header,
+    section {
       max-width: 900px;
       margin: 2rem auto;
       padding: 0 1.5rem;
     }
+
+    /* Header */
+
+    header {
+      margin-top: 2.5rem;
+    }
+
     header img {
       max-width: 180px;
       display: block;
       margin: 1rem auto;
     }
-    h1, h2 {
+
+    h1 {
       text-align: center;
       color: #111;
+      font-weight: 500;
     }
+
+    h2 {
+      text-align: left;
+      color: #111;
+      font-weight: 500;
+    }
+
+    /* Intro */
+
     blockquote {
       background: #f0f0f0;
       border-left: 4px solid #0078d7;
@@ -34,126 +56,477 @@
       margin: 1.5rem 0;
       font-style: italic;
     }
+
+    /* Links */
+
     a {
       color: #0078d7;
       text-decoration: none;
     }
+
     a:hover {
       text-decoration: underline;
     }
+
+    /* Download buttons */
+
     .download {
       text-align: center;
-      margin: 2rem 0;
+      margin: 1.5rem 0;
     }
+
     .download a {
+      display: inline-block;
       background: #0078d7;
       color: white;
       padding: 0.75rem 1.5rem;
       border-radius: 6px;
       font-weight: 600;
+      text-decoration: none;
     }
+
     .download a:hover {
       background: #005fa3;
     }
-    table {
-      width: 100%;
+
+    /* Screenshot slideshow */
+
+    .slideshow {
+      max-width: 800px;
+      margin: 2rem auto;
+      position: relative;
       text-align: center;
-      border-spacing: 1rem;
     }
-    img {
-      max-width: 100%;
+
+    .slide {
+      display: none;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    .slide img {
+      display: block;
+      width: 100%;
+      max-height: 600px;
+      object-fit: contain;
+      margin: 0 auto;
       border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
+
+    .slide-caption {
+      margin: 0.8rem 0 0;
+      font-size: 1rem;
+      color: #444;
+    }
+
+    /* Slideshow arrows */
+
+    .slide-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+
+      width: 42px;
+      height: 42px;
+
+      border: none;
+      border-radius: 50%;
+
+      background: rgba(0, 120, 215, 0.85);
+      color: white;
+
+      cursor: pointer;
+      font-size: 1.4rem;
+
+      padding: 0;
+      line-height: 42px;
+
+      transition: background 0.15s ease;
+    }
+
+    .slide-button:hover {
+      background: #005fa3;
+    }
+
+    .slide-button.prev {
+      left: 10px;
+    }
+
+    .slide-button.next {
+      right: 10px;
+    }
+
+    /* Slideshow dots */
+
+    .slide-dots {
+      margin-top: 1rem;
+    }
+
+    .slide-dot {
+      display: inline-block;
+
+      width: 9px;
+      height: 9px;
+
+      margin: 0 4px;
+
+      border-radius: 50%;
+
+      background: #aaa;
+
+      cursor: pointer;
+    }
+
+    .slide-dot.active {
+      background: #0078d7;
+    }
+
+    /* Features */
+
     ul {
       list-style: none;
       padding: 0;
     }
+
     ul li {
-      margin: 0.5rem 0;
+      margin: 0.7rem 0;
       padding-left: 1.5rem;
       position: relative;
     }
+
     ul li::before {
       content: "";
       position: absolute;
       left: 0;
     }
+
+    /* About */
+
+    #about {
+      margin-bottom: 3rem;
+    }
+
+    /* Footer */
+
     footer {
       text-align: center;
       margin: 3rem 0;
       font-size: 0.9rem;
       color: #555;
     }
-    code {
-      background: #eee;
-      padding: 0.2rem 0.4rem;
-      border-radius: 4px;
+
+    /* Mobile */
+
+    @media (max-width: 600px) {
+
+      header,
+      section {
+        padding: 0 1rem;
+      }
+
+      header img {
+        max-width: 150px;
+      }
+
+      .slide img {
+        max-height: 400px;
+      }
+
+      .slide-button {
+        width: 36px;
+        height: 36px;
+        line-height: 36px;
+        font-size: 1.1rem;
+      }
+
+      .slide-button.prev {
+        left: 5px;
+      }
+
+      .slide-button.next {
+        right: 5px;
+      }
     }
   </style>
 </head>
+
+
 <body>
+
+  <!-- =====================================================
+       HEADER
+       ===================================================== -->
+
   <header>
+
     <h1>ELN11</h1>
-    <img src="images/logo.png" alt="ELN11 Logo">
+
+    <img
+      src="images/logo.png"
+      alt="ELN11 Logo"
+    >
+
     <blockquote>
-      <strong>ELN11</strong> is a electronic lab journal for all your synthesis experiments.<br>
-      Fast, easy to set-up, and focused on user-friendliness.
+      <strong>ELN11</strong> is an electronic lab journal
+      for documenting synthesis experiments.
     </blockquote>
+
   </header>
 
+
+  <!-- =====================================================
+       DOWNLOAD
+       ===================================================== -->
+
   <section id="download">
-    <h2>Download</h2>
+
+    <h1>Download</h1>
+
     <div class="download">
-      <a href="releases/ELN11.exe">Download for Windows (x86-64)</a>
+      <a href="releases/ELN11.exe">
+        Download for Windows (x86-64)
+      </a>
     </div>
-        <div class="download">
-      <a href="releases/fyne_app1.tar.xz">Download for Linux (x86-64)</a>
-      <p><em>Click the link to download the latest version.</em></p>
+
+    <div class="download">
+      <a href="releases/fyne_app1.tar.xz">
+        Download for Linux (x86-64)
+      </a>
     </div>
+
   </section>
+
+
+  <!-- =====================================================
+       SCREENSHOTS
+       ===================================================== -->
 
   <section id="screenshots">
-    <h2>Screenshots</h2>
-    <table>
-      <tr>
-        <td>
-          <img src="images/screenshot2.png" alt="Create your own compound library">
-          <p><strong>Create your own compound library</strong></p>
-        </td>
-        <td>
-          <img src="images/websearch.png" alt="Add new compounds from image files">
-          <p><strong>Add new compounds from the integrated web API</strong></p>
-        </td>
-      </tr>
-    </table>
-    <div style="text-align:center; margin-top:1rem;">
-      <img src="images/screenshot1.png" alt="Design reactions in the reaction library">
-      <p><em>Design reactions in the reaction library</em></p>
+
+    <h1>Screenshots</h1>
+
+    <div class="slideshow">
+
+      <!-- Screenshot 1 -->
+
+      <div class="slide active">
+
+        <img
+          src="images/screenshot2.png"
+          alt="Create your own compound library"
+        >
+
+        <p class="slide-caption">
+          Create your own compound library
+        </p>
+
+      </div>
+
+
+      <!-- Screenshot 2 -->
+
+      <div class="slide">
+
+        <img
+          src="images/websearch.png"
+          alt="Add new compounds using the integrated web search"
+        >
+
+        <p class="slide-caption">
+          Add new compounds using the integrated web search
+        </p>
+
+      </div>
+
+
+      <!-- Screenshot 3 -->
+
+      <div class="slide">
+
+        <img
+          src="images/screenshot1.png"
+          alt="Design reactions in the reaction library"
+        >
+
+        <p class="slide-caption">
+          Design reactions in the reaction library
+        </p>
+
+      </div>
+
+
+      <!-- Previous / Next buttons -->
+
+      <button
+        class="slide-button prev"
+        onclick="changeSlide(-1)"
+        aria-label="Previous screenshot"
+      >
+        &#10094;
+      </button>
+
+      <button
+        class="slide-button next"
+        onclick="changeSlide(1)"
+        aria-label="Next screenshot"
+      >
+        &#10095;
+      </button>
+
+
+      <!-- Dots -->
+
+      <div class="slide-dots">
+
+        <span
+          class="slide-dot active"
+          onclick="showSlide(0)"
+          aria-label="Show screenshot 1"
+        ></span>
+
+        <span
+          class="slide-dot"
+          onclick="showSlide(1)"
+          aria-label="Show screenshot 2"
+        ></span>
+
+        <span
+          class="slide-dot"
+          onclick="showSlide(2)"
+          aria-label="Show screenshot 3"
+        ></span>
+
+      </div>
+
     </div>
+
   </section>
+
+
+  <!-- =====================================================
+       FEATURES
+       ===================================================== -->
 
   <section id="features">
+
     <h2>Features</h2>
+
     <ul>
-      <li><strong>Electronic Lab Journal</strong> - Design and keep track of all your synthesis experiments.</li>
-      <li><strong>Integrated Web Search</strong> - Search for compounds in online databases.</li>
-      <li><strong>Automatic Reaction Scheme</strong> - Automatically draws a reaction scheme based on the selected components.</li>
-      <li><strong>Drawing tool</strong> - Draw new compounds in the sketcher.</li>
-      <li><strong>Portable</strong> - No installation required.</li>
+
+      <li>
+        <strong>Electronic Lab Journal</strong>
+        – Design and keep track of your synthesis experiments.
+      </li>
+
+      <li>
+        <strong>Integrated Web Search</strong>
+        – Search for compounds in online databases.
+      </li>
+
+      <li>
+        <strong>Automatic Reaction Scheme</strong>
+        – Automatically draw a reaction scheme based on the
+        selected components.
+      </li>
+
+      <li>
+        <strong>Drawing Tool</strong>
+        – Draw new compounds directly in the sketcher.
+      </li>
+
+      <li>
+        <strong>Portable</strong>
+        – No installation required.
+      </li>
+
     </ul>
+
   </section>
 
 
+  <!-- =====================================================
+       ABOUT
+       ===================================================== -->
 
   <section id="about">
+
     <h2>About the Project</h2>
-    <p>Hello, I am a former PhD student in organic chemistry. I created this app as an easy option to set-up and document your synthesis experiments. Feel free to try out and let me know what you think!</p>
-    <p><strong>Contact:</strong> <a href="mailto:ELN11.info@gmail.com">ELN11.info@gmail.com</a></p>
+
+    <p>
+      Hello, I am a former PhD student in organic chemistry.
+      I created this app as an easy option to set up and
+      document your synthesis experiments.
+      Feel free to try it out and let me know what you think!
+    </p>
+
+    <p>
+      <strong>Contact:</strong>
+      <a href="mailto:ELN11.info@gmail.com">
+        ELN11.info@gmail.com
+      </a>
+    </p>
+
   </section>
 
+
+  <!-- =====================================================
+       FOOTER
+       ===================================================== -->
+
   <footer>
-    © 2026 <strong>ELN11 Project</strong> — All rights reserved.
+    ELN11 – Electronic Lab Journal
   </footer>
+
+
+  <!-- =====================================================
+       SLIDESHOW JAVASCRIPT
+       ===================================================== -->
+
+  <script>
+
+    let currentSlide = 0;
+
+    const slides = document.querySelectorAll(".slide");
+    const dots = document.querySelectorAll(".slide-dot");
+
+
+    function showSlide(index) {
+
+      if (index >= slides.length) {
+        currentSlide = 0;
+      }
+      else if (index < 0) {
+        currentSlide = slides.length - 1;
+      }
+      else {
+        currentSlide = index;
+      }
+
+      slides.forEach((slide, i) => {
+        slide.classList.toggle(
+          "active",
+          i === currentSlide
+        );
+      });
+
+      dots.forEach((dot, i) => {
+        dot.classList.toggle(
+          "active",
+          i === currentSlide
+        );
+      });
+    }
+
+
+    function changeSlide(direction) {
+      showSlide(currentSlide + direction);
+    }
+
+  </script>
+
 </body>
 </html>
+```

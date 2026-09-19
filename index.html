@@ -89,7 +89,9 @@
       background: #005fa3;
     }
 
-    /* Screenshot slideshow */
+    /* =====================================================
+       Screenshot slideshow
+       ===================================================== */
 
     .slideshow {
       max-width: 800px;
@@ -97,6 +99,12 @@
       position: relative;
       text-align: center;
     }
+
+    /*
+     * Every screenshot is displayed inside the same fixed-size
+     * area. This prevents the arrows, captions and dots from
+     * moving when screenshots have different dimensions.
+     */
 
     .slide {
       display: none;
@@ -106,27 +114,51 @@
       display: block;
     }
 
+    .slide-image-container {
+      height: 600px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     .slide img {
       display: block;
-      width: 100%;
+
+      max-width: 100%;
       max-height: 600px;
+
+      width: auto;
+      height: auto;
+
       object-fit: contain;
-      margin: 0 auto;
+
       border-radius: 8px;
+
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
 
     .slide-caption {
+      height: 30px;
       margin: 0.8rem 0 0;
+
       font-size: 1rem;
       color: #444;
     }
 
-    /* Slideshow arrows */
+    /* =====================================================
+       Slideshow arrows
+       ===================================================== */
 
     .slide-button {
       position: absolute;
-      top: 50%;
+
+      /*
+       * Half of the 600px image area.
+       * This keeps the arrows vertically fixed.
+       */
+      top: 300px;
+
       transform: translateY(-50%);
 
       width: 42px;
@@ -136,12 +168,15 @@
       border-radius: 50%;
 
       background: rgba(0, 120, 215, 0.85);
+
       color: white;
 
       cursor: pointer;
+
       font-size: 1.4rem;
 
       padding: 0;
+
       line-height: 42px;
 
       transition: background 0.15s ease;
@@ -159,7 +194,9 @@
       right: 10px;
     }
 
-    /* Slideshow dots */
+    /* =====================================================
+       Slideshow dots
+       ===================================================== */
 
     .slide-dots {
       margin-top: 1rem;
@@ -184,7 +221,9 @@
       background: #0078d7;
     }
 
-    /* Features */
+    /* =====================================================
+       Features
+       ===================================================== */
 
     ul {
       list-style: none;
@@ -203,13 +242,17 @@
       left: 0;
     }
 
-    /* About */
+    /* =====================================================
+       About
+       ===================================================== */
 
     #about {
       margin-bottom: 3rem;
     }
 
-    /* Footer */
+    /* =====================================================
+       Footer
+       ===================================================== */
 
     footer {
       text-align: center;
@@ -218,7 +261,9 @@
       color: #555;
     }
 
-    /* Mobile */
+    /* =====================================================
+       Mobile
+       ===================================================== */
 
     @media (max-width: 600px) {
 
@@ -231,14 +276,30 @@
         max-width: 150px;
       }
 
+      /*
+       * Smaller fixed image area on phones.
+       */
+
+      .slide-image-container {
+        height: 400px;
+      }
+
       .slide img {
         max-height: 400px;
       }
 
+      .slide-caption {
+        height: 30px;
+      }
+
       .slide-button {
+        top: 200px;
+
         width: 36px;
         height: 36px;
+
         line-height: 36px;
+
         font-size: 1.1rem;
       }
 
@@ -255,6 +316,7 @@
 
 
 <body>
+
 
   <!-- =====================================================
        HEADER
@@ -310,14 +372,21 @@
 
     <div class="slideshow">
 
-      <!-- Screenshot 1 -->
+
+      <!-- =================================================
+           Screenshot 1
+           ================================================= -->
 
       <div class="slide active">
 
-        <img
-          src="images/screenshot2.png"
-          alt="Create your own compound library"
-        >
+        <div class="slide-image-container">
+
+          <img
+            src="images/screenshot2.png"
+            alt="Create your own compound library"
+          >
+
+        </div>
 
         <p class="slide-caption">
           Create your own compound library
@@ -326,14 +395,20 @@
       </div>
 
 
-      <!-- Screenshot 2 -->
+      <!-- =================================================
+           Screenshot 2
+           ================================================= -->
 
       <div class="slide">
 
-        <img
-          src="images/websearch.png"
-          alt="Add new compounds using the integrated web search"
-        >
+        <div class="slide-image-container">
+
+          <img
+            src="images/websearch.png"
+            alt="Add new compounds using the integrated web search"
+          >
+
+        </div>
 
         <p class="slide-caption">
           Add new compounds using the integrated web search
@@ -342,14 +417,20 @@
       </div>
 
 
-      <!-- Screenshot 3 -->
+      <!-- =================================================
+           Screenshot 3
+           ================================================= -->
 
       <div class="slide">
 
-        <img
-          src="images/screenshot1.png"
-          alt="Design reactions in the reaction library"
-        >
+        <div class="slide-image-container">
+
+          <img
+            src="images/screenshot1.png"
+            alt="Design reactions in the reaction library"
+          >
+
+        </div>
 
         <p class="slide-caption">
           Design reactions in the reaction library
@@ -358,7 +439,9 @@
       </div>
 
 
-      <!-- Previous / Next buttons -->
+      <!-- =================================================
+           Previous / Next buttons
+           ================================================= -->
 
       <button
         class="slide-button prev"
@@ -377,7 +460,9 @@
       </button>
 
 
-      <!-- Dots -->
+      <!-- =================================================
+           Navigation dots
+           ================================================= -->
 
       <div class="slide-dots">
 
@@ -483,6 +568,12 @@
 
   <!-- =====================================================
        SLIDESHOW JAVASCRIPT
+
+       No automatic timer.
+       Slides only change when the user clicks:
+       - previous arrow
+       - next arrow
+       - navigation dot
        ===================================================== -->
 
   <script>
@@ -495,6 +586,10 @@
 
     function showSlide(index) {
 
+      /*
+       * Wrap around when reaching the first or last slide.
+       */
+
       if (index >= slides.length) {
         currentSlide = 0;
       }
@@ -505,24 +600,45 @@
         currentSlide = index;
       }
 
+
+      /*
+       * Show the selected slide.
+       */
+
       slides.forEach((slide, i) => {
+
         slide.classList.toggle(
           "active",
           i === currentSlide
         );
+
       });
 
+
+      /*
+       * Update the active navigation dot.
+       */
+
       dots.forEach((dot, i) => {
+
         dot.classList.toggle(
           "active",
           i === currentSlide
         );
+
       });
+
     }
 
 
+    /*
+     * Move to the next or previous slide.
+     */
+
     function changeSlide(direction) {
+
       showSlide(currentSlide + direction);
+
     }
 
   </script>
